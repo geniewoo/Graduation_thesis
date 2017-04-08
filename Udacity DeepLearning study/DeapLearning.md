@@ -6,8 +6,18 @@
 
 ##### - a. np.ndarray(shape = (2, 2), dtype = float);
 
+    array형태로 만들어 준다. list와 조금 다르다 list를 array형태로 만들고 싶으면 numpy.array(list_name)해 주면 된다.
+    array에서 원하는 인덱스를 가져와서 다른 array를 만들고 싶으면 array[array_Indexes](예 array[[1,2,3]])로 가져 올 수 있다
+    array_indexs는 list나 array나 다 가능하다.
     parameter1 = 생긴 모습 integer인 경우 1차 array, shape = (2, 2) 면 2 x 2 array, shape = (2, 2, 2), 2 x 2 x 2 array
     이후 파라미터, dtype = 데이터 타입 지정
+
+##### -b np.random
+
+    - np.random.shuffle(list)
+    inplace로 정렬
+    - np.random.permutation(list)
+    정렬된 값 return
 
 ##### - 그 외
 
@@ -68,3 +78,14 @@
     리스트를 바이너리형태로 파일에 다 씀
     obj = 넣을 리스트, file = 파일이름
     protocol = 프로토콜 버전 HIGHEST_PROTOCOL를 사용하자
+
+### 4. matplotlib.pyplot
+
+##### improt matplotlib.pyplot
+
+##### -a matplotlib.pyplot.plot(y)
+
+    y축만 있을 경우 x는 0부터 자동증가
+    plot(x, y) // x축, y축 지정
+    plot(y, 'r+') // red +
+    plot(y, 'bo') // blucircle
