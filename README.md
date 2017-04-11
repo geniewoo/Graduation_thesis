@@ -6,3 +6,6 @@
 - [x] Udacity - Deep Learning 정리
 - [ ] 관련 논문 읽기
 - [ ] 4/? 졸업논문 스터디
+
+##### Deep Learning 강의 정리
+    https://docs.google.com/document/d/17OIRyPIZ_gaPkY08VepEgLkkGxOLhejP_MRU8P0CEwo/edit?usp=sharing
