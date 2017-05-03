@@ -18,6 +18,6 @@
 
     [링크](https://docs.google.com/document/d/1iWtHknoebdEIa1OE3tv2vHS2KMkMUojqxGjAN3yZ4F4/edit?usp=sharing)
 
-##### HunKim ML TensorFlow 강의 정리
+##### HunKim ML 실습 강의 정리
 
     [링크](https://docs.google.com/document/d/1Ux5W25Lnd8MUj8bVDulU7RwTkDTVB5suhLbNzYK8BYU/edit?usp=sharing)
