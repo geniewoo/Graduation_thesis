@@ -14,10 +14,10 @@
 
     [링크](https://docs.google.com/document/d/17OIRyPIZ_gaPkY08VepEgLkkGxOLhejP_MRU8P0CEwo/edit?usp=sharing)
 
-##### HunKim LM 강의정리
+##### HunKim ML 강의정리
 
     [링크](https://docs.google.com/document/d/1iWtHknoebdEIa1OE3tv2vHS2KMkMUojqxGjAN3yZ4F4/edit?usp=sharing)
 
-##### HunKim MachineLearning 강의 정리
+##### HunKim ML TensorFlow 강의 정리
 
     [링크](https://docs.google.com/document/d/1Ux5W25Lnd8MUj8bVDulU7RwTkDTVB5suhLbNzYK8BYU/edit?usp=sharing)
