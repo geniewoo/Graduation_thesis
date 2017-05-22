@@ -2,3 +2,5 @@
 *.pyc
 *.csv
 *.idea
+*.log
+./Tensorflow/tutorial/logs

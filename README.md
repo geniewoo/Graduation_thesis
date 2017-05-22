@@ -5,10 +5,11 @@
 - [x] Udacity - Deep Learning 강의 보기 4/1 ~ 4/7
 - [x] Udacity - Deep Learning 정리
 - [x] 김성훈(HunKim) 교수님 머신러닝 강의 보고 정리하기 (http://hunkim.github.io/ml/) 4/8 ~ 4/11
+- [x] 김성훈(HunKim) 교수님 머신러닝 실습 강의 보고 실습하기 기본 (http://hunkim.github.io/ml/) 4월말 ~ 5/21
 - [ ] 관련 논문 읽기
-- [ ] 졸업논문 스터디 (4/13)
-- [ ] 김성훈(HunKim) 교수님 머신러닝 실습 강의 보고 정리하기 (http://hunkim.github.io/ml/)
-- [ ] 김성훈(HunKim) 교수님 머신러닝 실습 강의 보고 실습하기 (http://hunkim.github.io/ml/)
+- [ ] 졸업논문 스터디 (5/25)
+- [ ] 김성훈(HunKim) 교수님 머신러닝 실습 강의 보고 정리하기 (http://hunkim.github.io/ml/) 4월말 ~
+- [ ] 김성훈(HunKim) 교수님 머신러닝 실습 강의 보고 실습하기 응용 (http://hunkim.github.io/ml/) 5/22 ~
 
 ##### Deep Learning 강의 정리
 
