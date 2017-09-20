@@ -37,7 +37,7 @@ with tf.Session() as sess:
     for i in range(2000):
         l, _ = sess.run([loss, train], feed_dict={X: x_data, Y: y_data})
         result = sess.run(prediction, feed_dict={X: x_data})
-        #print(i, "loss:", l, "prediction: ", result, "true Y: ", y_data)
+        print(i, "loss:", l, "prediction: ", result, "true Y: ", y_data)
 
         result_str = [idx2char[c] for c in np.squeeze(result)]
         if i % 200 == 0:

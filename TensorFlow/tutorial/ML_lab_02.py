@@ -16,7 +16,7 @@ train = optimizer.minimize(cost)
 sess = tf.Session()
 sess.run(tf.global_variables_initializer())
 
-for step in range(1000000):
+for step in range(10000):
     sess.run(train)
     if step % 1000 == 0:
         print(step, sess.run(cost), sess.run(W), sess.run(b))

@@ -15,6 +15,8 @@
 - [x] AVA Dataset 논문 요약하기 (https://docs.google.com/presentation/d/13tJ83KfGtuKS-OweCWarzO_dqTZe53KB30b-u8dCi3A/edit?usp=sharing)
 - [x] 관련 논문 읽기 2.Photo Aesthetics Ranking Network with Attributes and Content Adaptation (ppt 제작)
 		(https://docs.google.com/presentation/d/1I6kFK_dOtud33VFZlMigqjUjgHXScKGiOqkQACvcN3M/edit?usp=sharing)
+- [x] 관련 논문 읽기 Computational Aesthetics of Photos Quality Assessment and Classification Based on Artificial Neural Network with Deep Learning Methods (ppt 제작)
+		(https://docs.google.com/presentation/d/1W55LkN1k64MqS8MFT-9283jiN0muclu6ryQ82CjfiAs/edit?usp=sharing)
 
 ##### Deep Learning 강의 정리
 
