@@ -20,7 +20,6 @@
 - [x] 논문 -> 작품 변경
 - [x] 작품 제안서 작성 (https://drive.google.com/file/d/0B00Q6SN04xHkUUVCclpRa0VhOUE/view?usp=sharing)
 - [x] 작품 중간보고서 작성 (https://drive.google.com/file/d/0B00Q6SN04xHkUm5qRGt2UkduRWM/view?usp=sharing)
-- [x] AADBdataset .mat file에서 python 코드로 score추출
 
 ##### Deep Learning 강의 정리
 
@@ -33,3 +32,9 @@
 ##### HunKim ML 실습 강의 정리
 
     [링크](https://docs.google.com/document/d/1Ux5W25Lnd8MUj8bVDulU7RwTkDTVB5suhLbNzYK8BYU/edit?usp=sharing)
+
+
+#### 작품 제작
+
+ - [x] AADBdataset .mat file에서 python 코드로 score추출
+ - [x] AADBdataset resizing python코드 생성 및 resized 파일생성

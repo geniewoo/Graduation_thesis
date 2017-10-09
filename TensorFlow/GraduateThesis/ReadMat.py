@@ -20,3 +20,4 @@ testScore = mat["testScore"][0].tolist()
 
 for index in range(len(testNameList)):
     f.write(testNameList[index][0] + " " + str(testScore[index]) + "\n")
+
