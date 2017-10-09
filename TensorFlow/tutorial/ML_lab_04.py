@@ -20,7 +20,7 @@ sess = tf.Session()
 
 sess.run(tf.global_variables_initializer())
 
-for step in range(100001):
+for step in range(28):
     cost_val, hy_val, _ = sess.run([cost, hypothesis, train], feed_dict={X: x_data, Y: y_data})
-    if step % 5000 == 0:
+    if step % 3 == 0:
         print(step, "Cost: ", cost_val, "\nPrediction:\n", hy_val)

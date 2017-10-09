@@ -17,6 +17,9 @@
 		(https://docs.google.com/presentation/d/1I6kFK_dOtud33VFZlMigqjUjgHXScKGiOqkQACvcN3M/edit?usp=sharing)
 - [x] 관련 논문 읽기 Computational Aesthetics of Photos Quality Assessment and Classification Based on Artificial Neural Network with Deep Learning Methods (ppt 제작)
 		(https://docs.google.com/presentation/d/1W55LkN1k64MqS8MFT-9283jiN0muclu6ryQ82CjfiAs/edit?usp=sharing)
+- [x] 논문 -> 작품 변경
+- [x] 작품 제안서 작성 (https://drive.google.com/file/d/0B00Q6SN04xHkUUVCclpRa0VhOUE/view?usp=sharing)
+- [x] 작품 중간보고서 작성 (https://drive.google.com/file/d/0B00Q6SN04xHkUm5qRGt2UkduRWM/view?usp=sharing)
 
 ##### Deep Learning 강의 정리
 
