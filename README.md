@@ -20,6 +20,7 @@
 - [x] 논문 -> 작품 변경
 - [x] 작품 제안서 작성 (https://drive.google.com/file/d/0B00Q6SN04xHkUUVCclpRa0VhOUE/view?usp=sharing)
 - [x] 작품 중간보고서 작성 (https://drive.google.com/file/d/0B00Q6SN04xHkUm5qRGt2UkduRWM/view?usp=sharing)
+- [x] AADBdataset .mat file에서 python 코드로 score추출
 
 ##### Deep Learning 강의 정리
 
