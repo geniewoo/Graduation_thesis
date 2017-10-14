@@ -34,17 +34,18 @@ is_correct = tf.equal(tf.arg_max(hypothesis, 1), tf.arg_max(Y, 1))
 accuracy = tf.reduce_mean(tf.cast(is_correct, tf.float32))
 
 training_epochs = 100
-batch_size = 100
+batch_size = 90
 
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
 
     for epoch in range(training_epochs):
         avg_cost = 0
-        total_batch = int(mnist.train.num_examples / batch_size)
+        total_batch = int(mnist.train.num_examples / batch_size) + 1
 
         for i in range(total_batch):
             batch_xs, batch_ys = mnist.train.next_batch(batch_size)
+            print(batch_xs.shape)
             c, _ = sess.run([cost, optimizer], feed_dict={X: batch_xs, Y: batch_ys})# keep_prop: 0.7})
             avg_cost += c / total_batch
 
