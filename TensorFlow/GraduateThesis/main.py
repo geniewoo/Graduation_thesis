@@ -9,7 +9,7 @@ f = open("score.txt", 'r')
 TRAINING_DATA_RATE = 0.85
 IMAGE_SIZE = 256
 IMAGE_LAYER = 3
-TRAINING_EPOCHS = 200
+TRAINING_EPOCHS = 1
 BATCH_NUM = 500
 UP_DOWN_BASIS = 0.45
 
@@ -60,9 +60,9 @@ print(str(len(trainingDatasetNameArray)) + " " + str(len(testDatasetNameArray)))
 
 ##################################################################################################
 
-X = tf.placeholder(tf.float32, [None, IMAGE_SIZE, IMAGE_SIZE, IMAGE_LAYER])
+X = tf.placeholder(tf.float32, [None, IMAGE_SIZE, IMAGE_SIZE, IMAGE_LAYER], name="input1")
 # X_img = tf.reshape(X, [-1, IMAGE_SIZE, IMAGE_SIZE, IMAGE_LAYER])
-keep_prop = tf.placeholder(tf.float32)
+keep_prop = tf.placeholder(tf.float32, name="input2")
 Y = tf.placeholder(tf.float32, [None, 2])
 
 W1 = tf.Variable(tf.random_normal([8, 8, 3, 48], stddev=0.01))   #필터크기x, 필터크기y, 색, 필터개수
@@ -118,7 +118,9 @@ W8 = tf.get_variable("W8", shape=[100, 2], initializer=tf.contrib.layers.xavier_
 b8 = tf.Variable(tf.random_normal([2]))
 hypothesis = tf.matmul(L7, W8) + b8
 
-cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=hypothesis, labels=Y))
+output = tf.nn.softmax_cross_entropy_with_logits(logits=hypothesis, labels=Y, name="output")
+
+cost = tf.reduce_mean(output)
 
 optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.001)
 
@@ -136,8 +138,8 @@ with tf.Session() as sess:
 
     summary = tf.summary.merge_all()
 
-    writer = tf.summary.FileWriter('./logs/rate001_small_045')
-    writer.add_graph(sess.graph)
+    #writer = tf.summary.FileWriter('./logs/rate001_small_045')
+    #writer.add_graph(sess.graph)
 
     sess.run(tf.global_variables_initializer())
 
@@ -160,14 +162,15 @@ with tf.Session() as sess:
             if i % 10 == 0:
                 print(epoch, i, "Cost: ", c, " Prediction:")
 
-                writer.add_summary(s, global_step=i + epoch * BATCH_NUM)
+                #writer.add_summary(s, global_step=i + epoch * BATCH_NUM)
 
                 for j in range(oneBatchNum):
                     print(h[j], batch_ys[j])
 
         print('Epoch:', "%04d" % (epoch + 1), 'cost = ', '{:.9f}', format(avg_cost))
 
-    tf.train.write_graph(sess.graph_def, 'models/', 'small_045_001.pb', as_text=False)
+    tf.train.write_graph(sess.graph_def, 'models/', 'small_045_001_test.pb', as_text=False)
+    tf.train.write_graph(sess.graph_def, 'models/', 'small_045_001_test_text.pb', as_text=True)
     #
 
     test_batch_xs = getImageDatasByName(testDatasetNameArray)

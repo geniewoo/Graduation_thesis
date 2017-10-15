@@ -12,7 +12,7 @@ layer1 = tf.sigmoid(tf.matmul(X, W1) + b1)
 
 W2 = tf.Variable(tf.random_normal([2, 1]), name='weight2')
 b2 = tf.Variable(tf.random_normal([1]), name='bias2')
-hypothesis = tf.sigmoid(tf.matmul(layer1, W2) + b2)
+hypothesis = tf.sigmoid(tf.matmul(layer1, W2, name="matmul_100") + b2)
 
 cost = -tf.reduce_mean(Y * tf.log(hypothesis) + (1 - Y) * tf.log(1 - hypothesis), name="cost")
 train = tf.train.GradientDescentOptimizer(learning_rate=0.1).minimize(cost)
@@ -41,6 +41,6 @@ with tf.Session() as sess:
     h, c, a = sess.run([hypothesis, predicted, accuracy], feed_dict={X: x_data, Y: y_data})
 
     tf.train.write_graph(sess.graph_def, 'models/', 'test.pb', as_text=False)
-    tf.train.write_graph(sess.graph_def, 'models/', 'test_text.pb', as_text=True)
+    tf.train.write_graph(sess.graph_def, 'models/', 'test_text_1.pb', as_text=True)
 
     print("\nHypothesis: ", h, "\nCorrect: ", c, "\nAccuracy: ", a)
