@@ -1,0 +1,8 @@
+*__pycache__
+*.pyc
+*.csv
+*.idea
+*.log
+./Tensorflow/tutorial/logs
+*.jpg
+*.pb

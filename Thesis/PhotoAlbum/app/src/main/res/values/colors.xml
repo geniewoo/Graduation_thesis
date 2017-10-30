@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="o_s">#a44</color>
+    <color name="object">#aa0</color>
+    <color name="subject">#48a</color>
+    <color name="non">#4a4</color>
+    <color name="o_s_trans">#8a44</color>
+    <color name="object_trans">#8aa0</color>
+    <color name="subject_trans">#848a</color>
+    <color name="non_trans">#84a4</color>
+</resources>
