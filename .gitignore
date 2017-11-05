@@ -6,3 +6,4 @@
 ./Tensorflow/tutorial/logs
 *.jpg
 *.pb
+*.png
