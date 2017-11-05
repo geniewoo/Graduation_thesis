@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.sungwoo.boostcamp.photoalbumfilter.ImageInfoModel;
 import com.sungwoo.boostcamp.photoalbumfilter.ImageInfoResultModel;
+import com.sungwoo.boostcamp.photoalbumfilter.ObjectEvaluator;
 import com.sungwoo.boostcamp.photoalbumfilter.SubjectEvaluator;
 
 import java.io.IOException;
@@ -24,6 +25,7 @@ import static com.sungwoo.boostcamp.photoalbumfilter.SubjectEvaluator.INPUT_SIZE
 class AlbumFilterEvaluator {
     private static final String TAG = AlbumFilterEvaluator.class.getSimpleName();
     private SubjectEvaluator mSubjectEvaluator;
+    private ObjectEvaluator mObjectEvaluator;
     private List<ImageInfoModel> mImageInfoModelList;
     private Context mContext;
     private int index = 0;
@@ -32,6 +34,7 @@ class AlbumFilterEvaluator {
 
     AlbumFilterEvaluator(AssetManager assetManager, Context context, AlbumFilterEvaluatorListener albumFilterEvaluatorListener) {
         mSubjectEvaluator = new SubjectEvaluator(assetManager);
+        mObjectEvaluator = new ObjectEvaluator(assetManager);
         mContext = context;
         mAlbumFilterEvaluatorListener = albumFilterEvaluatorListener;
     }
@@ -75,7 +78,7 @@ class AlbumFilterEvaluator {
             imageBitmap = Bitmap.createScaledBitmap(imageBitmap, INPUT_SIZE, INPUT_SIZE, false);
             if (imageBitmap != null) {
                 int subject = mSubjectEvaluator.evaluateImageByModel(imageBitmap);
-                int object = mSubjectEvaluator.evaluateImageByModel(imageBitmap);
+                int object = mObjectEvaluator.evaluateImageByModel(imageBitmap);
 
                 boolean subjectBool = subject == 0;
                 boolean objectBool = object == 0;

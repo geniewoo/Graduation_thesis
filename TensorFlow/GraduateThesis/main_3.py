@@ -4,12 +4,13 @@ import numpy as np
 
 CROP_PATH = "cropImage\\"
 SMALL_PATH = "smallImage\\"
+COLOR_PATH = "colorImage\\"
 
 f = open("score.txt", 'r')
 TRAINING_DATA_RATE = 0.85
 IMAGE_SIZE = 256
 IMAGE_LAYER = 3
-TRAINING_EPOCHS = 120
+TRAINING_EPOCHS = 130
 BATCH_NUM = 250
 UP_BASIS = 0.6
 DOWN_BASIS = 0.475
@@ -30,24 +31,20 @@ def getImageUpDownByScoreForTrain(imageScoreList):
     scoreList = []
     notContainedList = []
     for i in range(len(imageScoreList)):
-        print(imageScoreList[i][0])
         if imageScoreList[i][0] > UP_BASIS:
             scoreList.append([1, 0])
         elif imageScoreList[i][0] < DOWN_BASIS:
             scoreList.append([0, 1])
         else:
             notContainedList.append(i)
-    print(notContainedList)
     return scoreList, notContainedList
 
 def removeNotContainedImage(batch_xs, notContainedList):
     j = len(notContainedList) - 1
-    print("1", len(batch_xs))
     for i in reversed(range(len(batch_xs))):
         if j >= 0 and notContainedList[j] == i:
             del batch_xs[i]
             j -= 1
-    print("2", len(batch_xs))
     return batch_xs
 
 def getImageUpDownByScoreForTest(imageScoreList):
@@ -97,7 +94,7 @@ def maxpool2d(x, s=2, k=2):
     return tf.nn.max_pool(x, ksize=[1, s, s, 1], strides=[1, k, k, 1], padding='SAME')
 
 def conv_net(x, weights, biases, dropout):
-    conv1_1 = conv2d(X, weights['wc1_1'], biases['bc1_1'])
+    conv1_1 = conv2d(x, weights['wc1_1'], biases['bc1_1'])
     conv1_2 = conv2d(conv1_1, weights['wc1_2'], biases['bc1_2'])
     pool1 = maxpool2d(conv1_2)
 
@@ -116,8 +113,8 @@ def conv_net(x, weights, biases, dropout):
     pool4 = maxpool2d(conv4_3)
 
     conv5_1 = conv2d(pool4, weights['wc5_1'], biases['bc5_1'])
-    conv5_2 = conv2d(conv5_1, weights['wc5_2'], biases['bc5_2'], strides=2)
-    conv5_3 = conv2d(conv5_2, weights['wc5_3'], biases['bc5_3'])
+    conv5_2 = conv2d(conv5_1, weights['wc5_2'], biases['bc5_2'])
+    conv5_3 = conv2d(conv5_2, weights['wc5_3'], biases['bc5_3'], strides=2)
     pool5 = maxpool2d(conv5_3)
 
     fc1 = tf.reshape(pool5, [-1, 8192])
@@ -197,7 +194,7 @@ with tf.Session() as sess:
 
     summary = tf.summary.merge_all()
 
-    writer = tf.summary.FileWriter('./logs/rate0001_small_06_120_VGG_remove')
+    writer = tf.summary.FileWriter('./logs/rate0001_small_06_0475_130_VGG_f')
     writer.add_graph(sess.graph)
 
     sess.run(tf.global_variables_initializer())
@@ -211,8 +208,8 @@ with tf.Session() as sess:
             batch_xs = getImageDatasByName(trainingDatasetNameArray[oneBatchNum * i:oneBatchNum * (i + 1)])
             batch_xs = removeNotContainedImage(batch_xs, notContainedList)
 
-            if i == 29 or i == 48 or i == 106 or i == 135 or i == 144 or i == 169 or i == 201 or i == 224 or i == 243:
-                 continue
+            # if i == 29 or i == 48 or i == 106 or i == 135 or i == 144 or i == 169 or i == 201 or i == 224 or i == 243:
+            #      continue
 
             print(i)
             c, h, s, _ = sess.run([cost, pred, summary, train], feed_dict={X: batch_xs, Y: batch_ys, keep_prop: 0.7})
@@ -323,8 +320,8 @@ with g.as_default():
     POOL4 = maxpool2d(CONV4_3)
 
     CONV5_1 = conv2d(POOL4, WC5_1, BC5_1)
-    CONV5_2 = conv2d(CONV5_1, WC5_2, BC5_2, strides=2)
-    CONV5_3 = conv2d(CONV5_2, WC5_3, BC5_3)
+    CONV5_2 = conv2d(CONV5_1, WC5_2, BC5_2)
+    CONV5_3 = conv2d(CONV5_2, WC5_3, BC5_3, strides=2)
     POOL5 = maxpool2d(CONV5_3)
 
     FC1 = tf.reshape(POOL5, [-1, 8192])
@@ -334,7 +331,9 @@ with g.as_default():
 
     FC3 = tf.nn.relu(tf.matmul(FC2, WC8) + BC8)
 
-    FC4 = tf.add(tf.matmul(FC3, WC9), BC9, name="output")
+    FC4 = tf.add(tf.matmul(FC3, WC9), BC9)
+
+    tf.nn.softmax(FC4, name="output")
 
     sess = tf.Session()
     init = tf.initialize_all_variables()
@@ -344,15 +343,13 @@ with g.as_default():
     correct_prediction = tf.equal(tf.argmax(FC4, 1), tf.argmax(y_train, 1))
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
 
-    for i in range(26):
-        if i == 16:
-            continue
+    tf.train.write_graph(g.as_graph_def(), 'models/', 'small_06_0475_0001_130_VGG.pb', as_text=False)
+    tf.train.write_graph(g.as_graph_def(), 'models/', 'small_06_0475_0001_130_text_VGG.pb', as_text=True)
+
+    for i in range(70):
         print("check accuracy %g" % accuracy.eval(
-                {X_2: getImageDatasByName(testDatasetNameArray[i * 50:(i + 1) * 50]), y_train: getImageUpDownByScoreForTest(testDatasetScoreArray[i * 50:(i + 1) * 50])}, sess))
+                {X_2: getImageDatasByName(testDatasetNameArray[i * 20:(i + 1) * 20]), y_train: getImageUpDownByScoreForTest(testDatasetScoreArray[i * 20:(i + 1) * 20])}, sess))
 
     # test_batch_xs = getImageDatasByName(testDatasetNameArray)
     # test_batch_ys = getImageUpDownByScore(testDatasetScoreArray)
     # print("Accuracy: ", accuracy.eval(session=sess, feed_dict={X: test_batch_xs, Y: test_batch_ys, keep_prop: 1}))
-
-    tf.train.write_graph(g.as_graph_def(), 'models/', 'small_06_0001_120_VGG.pb', as_text=False)
-    tf.train.write_graph(g.as_graph_def(), 'models/', 'small_06_0001_120_text_VGG.pb', as_text=True)
