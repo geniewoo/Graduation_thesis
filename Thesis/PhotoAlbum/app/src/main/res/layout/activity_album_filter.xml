@@ -26,6 +26,7 @@
             android:background="@color/o_s"
             android:textColor="#fff"
             android:textSize="15sp"
+            android:visibility="gone"
             android:text="O + S"/>
 
         <TextView
@@ -64,7 +65,7 @@
             android:background="@color/non"
             android:textColor="#fff"
             android:textSize="15sp"
-            android:visibility="gone"
+            android:visibility="visible"
             android:text="None"/>
         
         <TextView

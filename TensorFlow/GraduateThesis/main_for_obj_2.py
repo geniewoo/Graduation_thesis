@@ -1,22 +1,26 @@
 import tensorflow as tf
 from PIL import Image
 import numpy as np
+import threading
 
-CROP_PATH = "cropImage\\"
-SMALL_PATH = "smallImage\\"
-COLOR_PATH = "colorImage\\"
+SMALL_PATH = "smallObjImage\\"
 
-f = open("score.txt", 'r')
-TRAINING_DATA_RATE = 0.85
-IMAGE_SIZE = 256
+f = open("label_obj.txt", 'r')
+TRAINING_DATA_RATE = 0.9
+IMAGE_SIZE = 224
 IMAGE_LAYER = 3
-TRAINING_EPOCHS = 130
-BATCH_NUM = 250
-UP_BASIS = 0.6
-DOWN_BASIS = 0.475
-MIDDLE_BASIS = 0.55
-
+TRAINING_EPOCHS = 200
+BATCH_NUM = 180
+NB_CLASSES = 6
 learning_rate = 0.0001
+
+user_input = [None]
+def get_user_input(user_input_ref):
+    user_input_ref[0] = input("Give me some Information: ")
+
+def oneHotEncoding(imageLabelList):
+    return_values = np.eye(NB_CLASSES)[np.array(imageLabelList).reshape(-1)]
+    return return_values
 
 def getImageDatasByName(imageNameList):
     imageList = []
@@ -26,35 +30,6 @@ def getImageDatasByName(imageNameList):
         imageRGBList = imageRGBArray.tolist()
         imageList.append(imageRGBList)
     return imageList
-
-def getImageUpDownByScoreForTrain(imageScoreList):
-    scoreList = []
-    notContainedList = []
-    for i in range(len(imageScoreList)):
-        if imageScoreList[i][0] > UP_BASIS:
-            scoreList.append([1, 0])
-        elif imageScoreList[i][0] < DOWN_BASIS:
-            scoreList.append([0, 1])
-        else:
-            notContainedList.append(i)
-    return scoreList, notContainedList
-
-def removeNotContainedImage(batch_xs, notContainedList):
-    j = len(notContainedList) - 1
-    for i in reversed(range(len(batch_xs))):
-        if j >= 0 and notContainedList[j] == i:
-            del batch_xs[i]
-            j -= 1
-    return batch_xs
-
-def getImageUpDownByScoreForTest(imageScoreList):
-    scoreList = []
-    for score in imageScoreList:
-        if score[0] >= MIDDLE_BASIS:
-            scoreList.append([1, 0])
-        else:
-            scoreList.append([0, 1])
-    return scoreList
 
 def getImageNameList():
     datasetNameArray = []
@@ -67,7 +42,7 @@ def getImageNameList():
             break
         line = line.split(" ")
         datasetNameArray.append(line[0])
-        datasetScoreArray.append([float(line[1][:-1])])
+        datasetScoreArray.append([int(line[1][:-1])])
         i += 1
     return datasetNameArray, datasetScoreArray
 
@@ -85,8 +60,8 @@ print(str(len(trainingDatasetNameArray)) + " " + str(len(testDatasetNameArray)))
 
 ##################################################################################################
 
-def conv2d(x, W, b, strides=1):
-    x = tf.nn.conv2d(x, W, strides=[1, strides, strides, 1], padding='SAME')
+def conv2d(x, W, b, strid=1, padd='SAME'):
+    x = tf.nn.conv2d(x, W, strides=[1, strid, strid, 1], padding=padd)
     x = tf.nn.bias_add(x, b)
     return tf.nn.relu(x)
 
@@ -114,7 +89,7 @@ def conv_net(x, weights, biases, dropout):
 
     conv5_1 = conv2d(pool4, weights['wc5_1'], biases['bc5_1'])
     conv5_2 = conv2d(conv5_1, weights['wc5_2'], biases['bc5_2'])
-    conv5_3 = conv2d(conv5_2, weights['wc5_3'], biases['bc5_3'], strides=2)
+    conv5_3 = conv2d(conv5_2, weights['wc5_3'], biases['bc5_3'], strid=2)
     pool5 = maxpool2d(conv5_3)
 
     fc1 = tf.reshape(pool5, [-1, 8192])
@@ -144,10 +119,10 @@ weights = {
     'wc5_1': tf.Variable(tf.random_normal([3, 3, 512, 512], stddev=0.01)),
     'wc5_2': tf.Variable(tf.random_normal([3, 3, 512, 512], stddev=0.01)),
     'wc5_3': tf.Variable(tf.random_normal([3, 3, 512, 512], stddev=0.01)),
-    'wc6': tf.get_variable("W6", shape=[8192, 1024], initializer=tf.contrib.layers.xavier_initializer()),
-    'wc7': tf.get_variable("W7", shape=[1024, 128], initializer=tf.contrib.layers.xavier_initializer()),
-    'wc8': tf.get_variable("W8", shape=[128, 16], initializer=tf.contrib.layers.xavier_initializer()),
-    'wc9': tf.get_variable("W9", shape=[16, 2], initializer=tf.contrib.layers.xavier_initializer())
+    'wc6': tf.get_variable("W6", shape=[8192, 1500], initializer=tf.contrib.layers.xavier_initializer()),
+    'wc7': tf.get_variable("W7", shape=[1500, 250], initializer=tf.contrib.layers.xavier_initializer()),
+    'wc8': tf.get_variable("W8", shape=[250, 40], initializer=tf.contrib.layers.xavier_initializer()),
+    'wc9': tf.get_variable("W9", shape=[40, 6], initializer=tf.contrib.layers.xavier_initializer())
 }
 
 biases = {
@@ -164,14 +139,14 @@ biases = {
     'bc5_1': tf.Variable(tf.random_normal([512])),
     'bc5_2': tf.Variable(tf.random_normal([512])),
     'bc5_3': tf.Variable(tf.random_normal([512])),
-    'bc6': tf.Variable(tf.random_normal([1024])),
-    'bc7': tf.Variable(tf.random_normal([128])),
-    'bc8': tf.Variable(tf.random_normal([16])),
-    'bc9': tf.Variable(tf.random_normal([2]))
+    'bc6': tf.Variable(tf.random_normal([1500])),
+    'bc7': tf.Variable(tf.random_normal([250])),
+    'bc8': tf.Variable(tf.random_normal([40])),
+    'bc9': tf.Variable(tf.random_normal([6]))
 }
 
 X = tf.placeholder(tf.float32, [None, IMAGE_SIZE, IMAGE_SIZE, IMAGE_LAYER])
-Y = tf.placeholder(tf.float32, [None, 2])
+Y = tf.placeholder(tf.float32, [None, NB_CLASSES])
 # X_img = tf.reshape(X, [-1, IMAGE_SIZE, IMAGE_SIZE, IMAGE_LAYER])
 keep_prop = tf.placeholder(tf.float32)
 
@@ -190,11 +165,15 @@ cost_sum = tf.summary.scalar("cost", cost)
 
 ###########################################################################################
 
+mythread = threading.Thread(target=get_user_input, args=(user_input,))
+mythread.daemon = True
+mythread.start()
+
 with tf.Session() as sess:
 
     summary = tf.summary.merge_all()
 
-    writer = tf.summary.FileWriter('./logs/rate0001_small_06_0475_130_VGG_f')
+    writer = tf.summary.FileWriter('./logs/rate0001_small_obj_200_2_VGG')
     writer.add_graph(sess.graph)
 
     sess.run(tf.global_variables_initializer())
@@ -203,10 +182,13 @@ with tf.Session() as sess:
     for epoch in range(TRAINING_EPOCHS):
         avg_cost = 0
 
+        if user_input[0] is not None:
+            print("input is exists")
+            break
+
         for i in range(BATCH_NUM):
-            batch_ys, notContainedList = getImageUpDownByScoreForTrain(trainingDatasetScoreArray[oneBatchNum * i:oneBatchNum * (i + 1)])
+            batch_ys = oneHotEncoding(trainingDatasetScoreArray[oneBatchNum * i:oneBatchNum * (i + 1)])
             batch_xs = getImageDatasByName(trainingDatasetNameArray[oneBatchNum * i:oneBatchNum * (i + 1)])
-            batch_xs = removeNotContainedImage(batch_xs, notContainedList)
 
             # if i == 29 or i == 48 or i == 106 or i == 135 or i == 144 or i == 169 or i == 201 or i == 224 or i == 243:
             #      continue
@@ -321,7 +303,7 @@ with g.as_default():
 
     CONV5_1 = conv2d(POOL4, WC5_1, BC5_1)
     CONV5_2 = conv2d(CONV5_1, WC5_2, BC5_2)
-    CONV5_3 = conv2d(CONV5_2, WC5_3, BC5_3, strides=2)
+    CONV5_3 = conv2d(CONV5_2, WC5_3, BC5_3, strid=2)
     POOL5 = maxpool2d(CONV5_3)
 
     FC1 = tf.reshape(POOL5, [-1, 8192])
@@ -333,22 +315,37 @@ with g.as_default():
 
     FC4 = tf.add(tf.matmul(FC3, WC9), BC9)
 
-    tf.nn.softmax(FC4, name="output")
+    softMaxTest = tf.nn.softmax(FC4, name="output")
 
     sess = tf.Session()
-    init = tf.initialize_all_variables()
+    init = tf.global_variables_initializer()
     sess.run(init)
 
-    y_train = tf.placeholder("float", [None, 2])
+    y_train = tf.placeholder("float", [None, NB_CLASSES])
     correct_prediction = tf.equal(tf.argmax(FC4, 1), tf.argmax(y_train, 1))
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
 
-    tf.train.write_graph(g.as_graph_def(), 'models/', 'small_06_0475_0001_130_VGG.pb', as_text=False)
-    tf.train.write_graph(g.as_graph_def(), 'models/', 'small_06_0475_0001_130_text_VGG.pb', as_text=True)
+    tf.train.write_graph(g.as_graph_def(), 'models/', 'small_obj_0001_200_VGG_2.pb', as_text=False)
+    tf.train.write_graph(g.as_graph_def(), 'models/', 'small_obj_0001_200_text_VGG_2.pb', as_text=True)
 
-    for i in range(70):
-        print("check accuracy %g" % accuracy.eval(
-                {X_2: getImageDatasByName(testDatasetNameArray[i * 20:(i + 1) * 20]), y_train: getImageUpDownByScoreForTest(testDatasetScoreArray[i * 20:(i + 1) * 20])}, sess))
+    i = 0
+
+    outputResultFile = open("OBJ_OUTPUT_RESULT.txt", 'w')
+
+    while True:
+        if len(testDatasetNameArray) < (i + 1) * 20:
+            break
+        input_y = oneHotEncoding(testDatasetScoreArray[i * 20:(i + 1) * 20])
+        outputResultFile.write("check accuracy %g" % accuracy.eval(
+        {X_2: getImageDatasByName(testDatasetNameArray[i * 20:(i + 1) * 20]), y_train: input_y}, sess))
+
+        outputResultFile.write("\n")
+        resultSoftMaxList = softMaxTest.eval({X_2: getImageDatasByName(testDatasetNameArray[i * 20:(i + 1) * 20])}, sess)
+
+        for j in range(len(resultSoftMaxList)):
+            outputResultFile.write(str(resultSoftMaxList[j]) + "\n" + str(input_y[j]) + "\n")
+
+        i += 1
 
     # test_batch_xs = getImageDatasByName(testDatasetNameArray)
     # test_batch_ys = getImageUpDownByScore(testDatasetScoreArray)

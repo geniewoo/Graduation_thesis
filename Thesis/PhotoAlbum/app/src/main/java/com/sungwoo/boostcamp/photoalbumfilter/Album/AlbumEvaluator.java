@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import com.sungwoo.boostcamp.photoalbumfilter.ObjectEvaluator;
 import com.sungwoo.boostcamp.photoalbumfilter.SubjectEvaluator;
 
 import java.io.IOException;
@@ -21,6 +22,7 @@ import static com.sungwoo.boostcamp.photoalbumfilter.SubjectEvaluator.INPUT_SIZE
 class AlbumEvaluator {
     private static final String TAG = AlbumEvaluator.class.getSimpleName();
     private SubjectEvaluator mSubjectEvaluator;
+    private ObjectEvaluator mObjectEvaluator;
     private Context mContext;
     private AlbumFilterEvaluatorListener mAlbumFilterEvaluatorListener;
     private boolean subjectBool;
@@ -29,6 +31,7 @@ class AlbumEvaluator {
 
     AlbumEvaluator(AssetManager assetManager, Context context, AlbumFilterEvaluatorListener albumFilterEvaluatorListener) {
         mSubjectEvaluator = new SubjectEvaluator(assetManager);
+        mObjectEvaluator = new ObjectEvaluator(assetManager);
         mContext = context;
         mAlbumFilterEvaluatorListener = albumFilterEvaluatorListener;
     }
@@ -48,10 +51,11 @@ class AlbumEvaluator {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            imageBitmap = Bitmap.createScaledBitmap(imageBitmap, INPUT_SIZE, INPUT_SIZE, false);
-            if (imageBitmap != null) {
-                int subject = mSubjectEvaluator.evaluateImageByModel(imageBitmap);
-                int object = mSubjectEvaluator.evaluateImageByModel(imageBitmap);
+            Bitmap imageBitmap1 = Bitmap.createScaledBitmap(imageBitmap, 256, 256, false);
+            Bitmap imageBitmap2 = Bitmap.createScaledBitmap(imageBitmap, 224, 224, false);
+            if (imageBitmap1 != null) {
+                int subject = mSubjectEvaluator.evaluateImageByModel(imageBitmap1);
+                int object = mObjectEvaluator.evaluateImageByModel(imageBitmap2);
 
                 subjectBool = subject == 0;
                 objectBool = object == 0;

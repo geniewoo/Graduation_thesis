@@ -1,6 +1,7 @@
 import tensorflow as tf
 from PIL import Image
 import numpy as np
+import threading
 
 CROP_PATH = "cropImage\\"
 SMALL_PATH = "smallImage\\"
@@ -15,8 +16,11 @@ BATCH_NUM = 250
 UP_BASIS = 0.6
 DOWN_BASIS = 0.475
 MIDDLE_BASIS = 0.55
+learning_rate = 0.00005
 
-learning_rate = 0.0001
+user_input = [None]
+def get_user_input(user_input_ref):
+    user_input_ref[0] = input("Give me some Information: ")
 
 def getImageDatasByName(imageNameList):
     imageList = []
@@ -190,11 +194,15 @@ cost_sum = tf.summary.scalar("cost", cost)
 
 ###########################################################################################
 
+mythread = threading.Thread(target=get_user_input, args=(user_input,))
+mythread.daemon = True
+mythread.start()
+
 with tf.Session() as sess:
 
     summary = tf.summary.merge_all()
 
-    writer = tf.summary.FileWriter('./logs/rate0001_small_06_0475_130_VGG_f')
+    writer = tf.summary.FileWriter('./logs/rate00005_small_06_0475_200_VGG')
     writer.add_graph(sess.graph)
 
     sess.run(tf.global_variables_initializer())
@@ -202,6 +210,10 @@ with tf.Session() as sess:
     oneBatchNum = int(trainingDatasetLen / BATCH_NUM)
     for epoch in range(TRAINING_EPOCHS):
         avg_cost = 0
+
+        if user_input[0] is not None:
+            print("input is exists")
+            break
 
         for i in range(BATCH_NUM):
             batch_ys, notContainedList = getImageUpDownByScoreForTrain(trainingDatasetScoreArray[oneBatchNum * i:oneBatchNum * (i + 1)])
@@ -312,7 +324,7 @@ with g.as_default():
     CONV3_1 = conv2d(POOL2, WC3_1, BC3_1)
     CONV3_2 = conv2d(CONV3_1, WC3_2, BC3_2)
     CONV3_3 = conv2d(CONV3_2, WC3_3, BC3_3)
-    POOL3 = maxpool2d(CONV3_2)
+    POOL3 = maxpool2d(CONV3_3)
 
     CONV4_1 = conv2d(POOL3, WC4_1, BC4_1)
     CONV4_2 = conv2d(CONV4_1, WC4_2, BC4_2)
@@ -333,18 +345,18 @@ with g.as_default():
 
     FC4 = tf.add(tf.matmul(FC3, WC9), BC9)
 
-    tf.nn.softmax(FC4, name="output")
+    resultSoftMax = tf.nn.softmax(FC4, name="output")
 
     sess = tf.Session()
     init = tf.initialize_all_variables()
     sess.run(init)
 
     y_train = tf.placeholder("float", [None, 2])
-    correct_prediction = tf.equal(tf.argmax(FC4, 1), tf.argmax(y_train, 1))
+    correct_prediction = tf.equal(tf.argmax(resultSoftMax, 1), tf.argmax(y_train, 1))
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
 
-    tf.train.write_graph(g.as_graph_def(), 'models/', 'small_06_0475_0001_130_VGG.pb', as_text=False)
-    tf.train.write_graph(g.as_graph_def(), 'models/', 'small_06_0475_0001_130_text_VGG.pb', as_text=True)
+    tf.train.write_graph(g.as_graph_def(), 'models/', 'small_06_0475_00005_200_VGG.pb', as_text=False)
+    tf.train.write_graph(g.as_graph_def(), 'models/', 'small_06_0475_00005_200_text_VGG.pb', as_text=True)
 
     for i in range(70):
         print("check accuracy %g" % accuracy.eval(

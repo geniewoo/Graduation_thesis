@@ -20,6 +20,8 @@
 - [x] 논문 -> 작품 변경
 - [x] 작품 제안서 작성 (https://drive.google.com/file/d/0B00Q6SN04xHkUUVCclpRa0VhOUE/view?usp=sharing)
 - [x] 작품 중간보고서 작성 (https://drive.google.com/file/d/0B00Q6SN04xHkUm5qRGt2UkduRWM/view?usp=sharing)
+- [x] 최종 작품 완료
+- [x] 최종 보고서 작성
 
 ##### Deep Learning 강의 정리
 
@@ -43,3 +45,5 @@
  - [x] 어플리케이션 구상하기
  - [x] 어플리케이션 기본 제작
  - [x] 기계학습 모델 만들고 학습시키기
+ - [x] 어플리케이션에 기계학습 모델 적용
+ - [x] 어플리케이션 기능 추가 및 성능 향상
