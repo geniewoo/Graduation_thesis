@@ -7,3 +7,5 @@
 *.jpg
 *.pb
 *.png
+./TensorFlow/GraduateThesis/logs
+./TensorFlow/GraduateThesis/*.txt
