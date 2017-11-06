@@ -75,10 +75,11 @@ class AlbumFilterEvaluator {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            imageBitmap = Bitmap.createScaledBitmap(imageBitmap, INPUT_SIZE, INPUT_SIZE, false);
-            if (imageBitmap != null) {
-                int subject = mSubjectEvaluator.evaluateImageByModel(imageBitmap);
-                int object = mObjectEvaluator.evaluateImageByModel(imageBitmap);
+            Bitmap imageBitmap1 = Bitmap.createScaledBitmap(imageBitmap, 256, 256, false);
+            Bitmap imageBitmap2 = Bitmap.createScaledBitmap(imageBitmap, 224, 224, false);
+            if (imageBitmap1 != null) {
+                int subject = mSubjectEvaluator.evaluateImageByModel(imageBitmap1);
+                int object = mObjectEvaluator.evaluateImageByModel(imageBitmap2);
 
                 boolean subjectBool = subject == 0;
                 boolean objectBool = object == 0;

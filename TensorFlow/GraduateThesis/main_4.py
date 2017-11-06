@@ -202,7 +202,7 @@ with tf.Session() as sess:
 
     summary = tf.summary.merge_all()
 
-    writer = tf.summary.FileWriter('./logs/rate00005_small_06_0475_130_VGG')
+    writer = tf.summary.FileWriter('./logs/rate00005_small_06_0475_200_VGG')
     writer.add_graph(sess.graph)
 
     sess.run(tf.global_variables_initializer())
@@ -324,7 +324,7 @@ with g.as_default():
     CONV3_1 = conv2d(POOL2, WC3_1, BC3_1)
     CONV3_2 = conv2d(CONV3_1, WC3_2, BC3_2)
     CONV3_3 = conv2d(CONV3_2, WC3_3, BC3_3)
-    POOL3 = maxpool2d(CONV3_2)
+    POOL3 = maxpool2d(CONV3_3)
 
     CONV4_1 = conv2d(POOL3, WC4_1, BC4_1)
     CONV4_2 = conv2d(CONV4_1, WC4_2, BC4_2)
@@ -355,8 +355,8 @@ with g.as_default():
     correct_prediction = tf.equal(tf.argmax(resultSoftMax, 1), tf.argmax(y_train, 1))
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
 
-    tf.train.write_graph(g.as_graph_def(), 'models/', 'small_06_0475_00005_130_VGG.pb', as_text=False)
-    tf.train.write_graph(g.as_graph_def(), 'models/', 'small_06_0475_00005_130_text_VGG.pb', as_text=True)
+    tf.train.write_graph(g.as_graph_def(), 'models/', 'small_06_0475_00005_200_VGG.pb', as_text=False)
+    tf.train.write_graph(g.as_graph_def(), 'models/', 'small_06_0475_00005_200_text_VGG.pb', as_text=True)
 
     for i in range(70):
         print("check accuracy %g" % accuracy.eval(

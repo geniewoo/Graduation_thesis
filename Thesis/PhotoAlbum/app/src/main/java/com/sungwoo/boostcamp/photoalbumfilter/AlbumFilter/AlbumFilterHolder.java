@@ -57,7 +57,7 @@ class AlbumFilterHolder extends RecyclerView.ViewHolder {
                     mRecyclerViewItemCheckImageButtons[i].setImageResource(R.drawable.check_box_empty_selector);
                 }
                 mRecyclerViewItemFilterTextViews[i].setVisibility(View.VISIBLE);
-                if (!imageInfoResultModels[i].getIsObjectOk() || !imageInfoResultModels[i].getIsSubjectOk()) {
+                if (!imageInfoResultModels[i].getIsObjectOk() && !imageInfoResultModels[i].getIsSubjectOk()) {
                     mRecyclerViewItemFilterTextViews[i].setText("O S");
                     mRecyclerViewItemFilterTextViews[i].setBackground(mContext.getResources().getDrawable(R.drawable.o_s_item_background));
                 } else if (!imageInfoResultModels[i].getIsObjectOk()) {

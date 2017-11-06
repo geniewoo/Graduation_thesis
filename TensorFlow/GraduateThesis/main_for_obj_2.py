@@ -9,10 +9,10 @@ f = open("label_obj.txt", 'r')
 TRAINING_DATA_RATE = 0.9
 IMAGE_SIZE = 224
 IMAGE_LAYER = 3
-TRAINING_EPOCHS = 80
-BATCH_NUM = 100
+TRAINING_EPOCHS = 200
+BATCH_NUM = 180
 NB_CLASSES = 6
-learning_rate = 0.00005
+learning_rate = 0.0001
 
 user_input = [None]
 def get_user_input(user_input_ref):
@@ -173,7 +173,7 @@ with tf.Session() as sess:
 
     summary = tf.summary.merge_all()
 
-    writer = tf.summary.FileWriter('./logs/rate00005_small_obj_80_VGG')
+    writer = tf.summary.FileWriter('./logs/rate0001_small_obj_200_2_VGG')
     writer.add_graph(sess.graph)
 
     sess.run(tf.global_variables_initializer())
@@ -294,7 +294,7 @@ with g.as_default():
     CONV3_1 = conv2d(POOL2, WC3_1, BC3_1)
     CONV3_2 = conv2d(CONV3_1, WC3_2, BC3_2)
     CONV3_3 = conv2d(CONV3_2, WC3_3, BC3_3)
-    POOL3 = maxpool2d(CONV3_3)
+    POOL3 = maxpool2d(CONV3_2)
 
     CONV4_1 = conv2d(POOL3, WC4_1, BC4_1)
     CONV4_2 = conv2d(CONV4_1, WC4_2, BC4_2)
@@ -325,12 +325,12 @@ with g.as_default():
     correct_prediction = tf.equal(tf.argmax(FC4, 1), tf.argmax(y_train, 1))
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
 
-    tf.train.write_graph(g.as_graph_def(), 'models/', 'small_obj_00005_200_VGG_2.pb', as_text=False)
-    tf.train.write_graph(g.as_graph_def(), 'models/', 'small_obj_00005_200_text_VGG_2.pb', as_text=True)
+    tf.train.write_graph(g.as_graph_def(), 'models/', 'small_obj_0001_200_VGG_2.pb', as_text=False)
+    tf.train.write_graph(g.as_graph_def(), 'models/', 'small_obj_0001_200_text_VGG_2.pb', as_text=True)
 
     i = 0
 
-    outputResultFile = open("OBJ_OUTPUT_RESULT_4.txt", 'w')
+    outputResultFile = open("OBJ_OUTPUT_RESULT.txt", 'w')
 
     while True:
         if len(testDatasetNameArray) < (i + 1) * 20:

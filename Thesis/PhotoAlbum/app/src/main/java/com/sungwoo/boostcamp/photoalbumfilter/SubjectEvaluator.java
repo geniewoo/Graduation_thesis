@@ -13,7 +13,7 @@ import org.tensorflow.contrib.android.TensorFlowInferenceInterface;
 public class SubjectEvaluator {
     public static final int INPUT_SIZE = 256;
     private static final int NUM_CLASS = 2;
-    private static final String MODEL_FILE = "file:///android_asset/small_06_0475_0001_100_VGG.pb";
+    private static final String MODEL_FILE = "file:///android_asset/small_06_0001_120_VGG.pb";
     private static final String PLACEHOLDER_NAME1 = "input";
     private static final String OUTPUT_NAME = "output";
     private static final String[] OUTPUT_NAMES = new String[]{OUTPUT_NAME};

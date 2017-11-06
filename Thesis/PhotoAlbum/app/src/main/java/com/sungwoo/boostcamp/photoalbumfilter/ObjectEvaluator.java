@@ -13,7 +13,7 @@ import org.tensorflow.contrib.android.TensorFlowInferenceInterface;
 public class ObjectEvaluator {
     private static final int INPUT_SIZE = 224;
     private static final int NUM_CLASS = 6;
-    private static final String MODEL_FILE = "file:///android_asset/small_obj_0001_32_VGG.pb";
+    private static final String MODEL_FILE = "file:///android_asset/small_obj_00005_200_VGG_2.pb";
     private static final String PLACEHOLDER_NAME1 = "input";
     private static final String OUTPUT_NAME = "output";
     private static final String[] OUTPUT_NAMES = new String[]{OUTPUT_NAME};
@@ -57,11 +57,8 @@ public class ObjectEvaluator {
     private int analysisOutput(float[] outputFloatArray) {
         if (outputFloatArray[0] > 0.5) return 0;
         for (int i = 1; i < outputFloatArray.length; i++) {
-            for (int j = i + 1; j < outputFloatArray.length; j++) {
-                if (outputFloatArray[i] + outputFloatArray[j] > 0.8) {
-                    return 1;
-                }
-            }
+            if (outputFloatArray[i] > 0.8)
+                return 1;
         }
         return 0;
     }
