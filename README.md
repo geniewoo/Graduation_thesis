@@ -1,7 +1,6 @@
 ﻿### 성균관대학교 컴퓨터공학과 박성우 졸업 논문용 repository 입니다.
 
 - [x] 제안서 제출 3 / 24
-- [ ] Udacity - Deep Learning assignment1 해석하기, 코드 코멘트달기 4/5 ~ 4/7
 - [x] Udacity - Deep Learning 강의 보기 4/1 ~ 4/7
 - [x] Udacity - Deep Learning 정리
 - [x] 김성훈(HunKim) 교수님 머신러닝 강의 보고 정리하기 (http://hunkim.github.io/ml/) 4/8 ~ 4/11
@@ -21,7 +20,8 @@
 - [x] 작품 제안서 작성 (https://drive.google.com/file/d/0B00Q6SN04xHkUUVCclpRa0VhOUE/view?usp=sharing)
 - [x] 작품 중간보고서 작성 (https://drive.google.com/file/d/0B00Q6SN04xHkUm5qRGt2UkduRWM/view?usp=sharing)
 - [x] 최종 작품 완료
-- [x] 최종 보고서 작성
+- [x] 최종 보고서 작성 (https://drive.google.com/file/d/1B5u_QxZBde1Aw_GvDcdnclwKQadbHLjD/view?usp=sharing)
+- [x] 발표자료 작성 (https://drive.google.com/file/d/1PXuLUxTEgBa8IaPRPh-lrLMXn6o-zd7K/view?usp=sharing)
 
 ##### Deep Learning 강의 정리
 
@@ -47,3 +47,6 @@
  - [x] 기계학습 모델 만들고 학습시키기
  - [x] 어플리케이션에 기계학습 모델 적용
  - [x] 어플리케이션 기능 추가 및 성능 향상
+
+![프로토타입1](https://github.com/geniewoo/Graduation_thesis/blob/master/prototype1.jpg)
+![프로토타입2](https://github.com/geniewoo/Graduation_thesis/blob/master/prototype2.jpg)
