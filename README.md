@@ -60,5 +60,5 @@
   개별 사진선택모드
 <img src="https://github.com/geniewoo/Graduation_thesis/blob/master/prototype2.jpg" width="200">
 
-- 발표자료
+#### 발표자료
 ![프로토타입2](https://github.com/geniewoo/Graduation_thesis/blob/master/presentation.jpg)
