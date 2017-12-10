@@ -54,8 +54,11 @@
    O : 객관적인 관점에서 안 좋은 사진
    S : 주관적인 관점에서 안 좋은 사진
    O S : 객관 or 주관적인 관점에서 안 좋은사진
-<img src="https://github.com/geniewoo/Graduation_thesis/blob/master/prototype1.jpg" width="150">
+<img src="https://github.com/geniewoo/Graduation_thesis/blob/master/prototype1.jpg" width="200">
 
 - 실행화면 2
   개별 사진선택모드
-<img src="https://github.com/geniewoo/Graduation_thesis/blob/master/prototype2.jpg" width="150">
+<img src="https://github.com/geniewoo/Graduation_thesis/blob/master/prototype2.jpg" width="200">
+
+- 발표자료
+![프로토타입2](https://github.com/geniewoo/Graduation_thesis/blob/master/presentation.jpg)
